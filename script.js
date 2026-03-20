@@ -4,7 +4,7 @@ async function askAI() {
     
     // 🛑 DHAYN DEIN: Yahan apni asli API Key dalo (Sirf testing ke liye)
     // Baad mein hum ise Vercel ke "Environment Variables" se connect karenge
-    const apiKey = "PASTE_YOUR_GROQ_API_KEY_HERE"; 
+    const apiKey = "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"; 
 
     if (input.trim() === "") {
         responseBox.innerHTML = "⚠️ Bhai, kuch toh likho!";

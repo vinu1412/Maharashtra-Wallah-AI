@@ -1,30 +1,46 @@
-export default async function handler(req, res) {
-    if (req.method !== 'POST') return res.status(405).json({ error: 'Method Not Allowed' });
+async function askAI() {
+    const input = document.getElementById('userInput').value;
+    const responseBox = document.getElementById('aiResponse');
+
+    // 1. Check agar input khali hai
+    if (input.trim() === "") {
+        responseBox.innerHTML = "⚠️ Bhai, kuch toh likho! Question kahan hai?";
+        responseBox.style.color = "#ffcc00"; // Warning color
+        return;
+    }
+
+    // 2. Loading state dikhao
+    responseBox.innerHTML = "🚀 Cerebras Engine Soch raha hai...";
+    responseBox.style.color = "white";
 
     try {
-        const { prompt } = req.body;
-        const apiKey = process.env.CEREBRAS_API_KEY;
-
-        const response = await fetch("https://api.cerebras.ai/v1/chat/completions", {
+        // 3. Vercel Backend (api/chat.js) ko call karo
+        const response = await fetch("/api/chat", {
             method: "POST",
             headers: {
-                "Authorization": `Bearer ${apiKey}`,
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({
-                model: "llama3.1-8b", // Cerebras ka fast model
-                messages: [
-                    { role: "system", content: "You are a helpful teacher for Maharashtra Board students." },
-                    { role: "user", content: prompt }
-                ]
-            })
+            body: JSON.stringify({ prompt: input })
         });
 
         const data = await response.json();
-        return res.status(200).json(data);
-        
+
+        // 4. Check karo agar backend se sahi response aaya
+        if (data.choices && data.choices[0]) {
+            const aiText = data.choices[0].message.content;
+            
+            // Format response (Nayi line handle karne ke liye)
+            responseBox.innerHTML = `<strong>Maharashtra Wallah AI:</strong> <br><br>${aiText.replace(/\n/g, "<br>")}`;
+        } else {
+            // Agar API key ya server mein dikat ho
+            responseBox.innerHTML = "❌ Error: AI respond nahi kar raha. Vercel Settings mein Cerebras Key check karo!";
+            responseBox.style.color = "#ff4d4d";
+        }
+
     } catch (error) {
-        return res.status(500).json({ error: "Cerebras Error: " + error.message });
+        // 5. Network ya Connection error handle karo
+        console.error("Error:", error);
+        responseBox.innerHTML = "❌ Connection Failed! Ek baar internet ya Vercel Logs check karo.";
+        responseBox.style.color = "#ff4d4d";
     }
     }
-    

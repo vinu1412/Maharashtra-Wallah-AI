@@ -1,20 +1,30 @@
-async function askAI() {
-    const input = document.getElementById('userInput').value;
-    const responseBox = document.getElementById('aiResponse');
-
-    if (!input) return;
-    responseBox.innerHTML = "🔍 AI Soch raha hai...";
+export default async function handler(req, res) {
+    if (req.method !== 'POST') return res.status(405).json({ error: 'Method Not Allowed' });
 
     try {
-        const response = await fetch("/api/chat", {
+        const { prompt } = req.body;
+        const apiKey = process.env.CEREBRAS_API_KEY;
+
+        const response = await fetch("https://api.cerebras.ai/v1/chat/completions", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ prompt: input })
+            headers: {
+                "Authorization": `Bearer ${apiKey}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                model: "llama3.1-8b", // Cerebras ka fast model
+                messages: [
+                    { role: "system", content: "You are a helpful teacher for Maharashtra Board students." },
+                    { role: "user", content: prompt }
+                ]
+            })
         });
 
         const data = await response.json();
-        responseBox.innerHTML = data.choices[0].message.content;
+        return res.status(200).json(data);
+        
     } catch (error) {
-        responseBox.innerHTML = "❌ Error: Vercel settings mein API Key check karo!";
+        return res.status(500).json({ error: "Cerebras Error: " + error.message });
     }
-}
+    }
+    

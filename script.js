@@ -1,19 +1,46 @@
-function askAI() {
+async function askAI() {
     const input = document.getElementById('userInput').value;
     const responseBox = document.getElementById('aiResponse');
+    
+    // Yahan apni Groq API Key dalo (Check karne ke liye)
+    const apiKey = "YAHAN_APNI_GROQ_KEY_DALO"; 
 
     if (input.trim() === "") {
         responseBox.innerHTML = "⚠️ Bhai, kuch toh likho!";
-        responseBox.style.color = "orange";
         return;
     }
 
-    // Abhi ke liye hum "Mock AI" (Simulated) use kar rahe hain
-    // Agle step mein hum Gemini API se real answer laayenge!
-    responseBox.innerHTML = "🔍 AI soch raha hai... Aapka sawaal: '" + input + "'";
-    responseBox.style.color = "#38bdf8";
+    responseBox.innerHTML = "🔍 AI Soch raha hai (Fast Mode)...";
 
-    setTimeout(() => {
-        responseBox.innerHTML = "✅ Aapka answer taiyaar ho raha hai! (API integration coming soon...)";
-    }, 2000);
-}
+    try {
+        const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${apiKey}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                model: "llama-3.3-70b-versatile", // Yeh super fast model hai
+                messages: [
+                    {
+                        role: "system",
+                        content: "You are an AI assistant for Maharashtra State Board students. Answer in Hindi/English mix. Be helpful and motivating."
+                    },
+                    {
+                        role: "user",
+                        content: input
+                    }
+                ]
+            })
+        });
+
+        const data = await response.json();
+        const aiText = data.choices[0].message.content;
+        responseBox.innerHTML = `<strong>AI:</strong> ${aiText}`;
+        responseBox.style.color = "white";
+
+    } catch (error) {
+        responseBox.innerHTML = "❌ Error: API limit ya key check karo!";
+        console.error(error);
+    }
+                                     }

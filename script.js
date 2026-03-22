@@ -86,4 +86,17 @@ inputArea.addEventListener('keypress', function (e) {
 // askButton.addEventListener('click', () => { setTimeout(() => { inputArea.value = ""; }, 100); });
 
 console.log("✅ Maharashtra Wallah AI Engine Loaded Successfully!");
-            
+   function playVideo(link, title) {
+    const container = document.getElementById('videoContainer'); // Purana ID
+    const player = document.getElementById('videoPlayer');
+    
+    player.src = link + "?autoplay=1";
+    container.style.display = "block";
+    container.scrollIntoView({ behavior: 'smooth' });
+}
+
+// Page load hote hi videos dikhane ke liye
+window.addEventListener('DOMContentLoaded', () => {
+    if(typeof loadVideos === 'function') loadVideos('All');
+});
+

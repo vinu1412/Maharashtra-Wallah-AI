@@ -1,70 +1,89 @@
-// ==========================================
-// 1. AI CHAT LOGIC (Cerebras API Connection)
-// ==========================================
-async function askAI() {
-    const input = document.getElementById('userInput').value;
-    const responseBox = document.getElementById('aiResponse');
+// ======================================================
+// 🎯 MAHARASHTRA WALLAH AI - MASTER ENGINE (V1.0)
+// ======================================================
 
-    if (input.trim() === "") {
-        responseBox.innerHTML = "⚠️ Bhai, kuch toh likho! Sawal kahan hai?";
+// 1. Element Selectors (Saare zaroori buttons aur boxes)
+const inputArea = document.getElementById('userInput');
+const askButton = document.getElementById('askBtn');
+const responseDisplay = document.getElementById('aiResponse');
+const videoBox = document.getElementById('videoContainer');
+const youtubeFrame = document.getElementById('videoPlayer');
+
+// ======================================================
+// 🧠 SECTION A: AI CHAT LOGIC (The Brain)
+// ======================================================
+async function askAI() {
+    const swal = inputArea.value.trim();
+
+    // Khali input check
+    if (!swal) {
+        responseDisplay.innerHTML = "⚠️ <span style='color: #ffcc00;'>Bhai, kuch toh likho! Question kahan hai?</span>";
         return;
     }
 
-    // Loading state dikhao
-    responseBox.innerHTML = "🚀 Maharashtra Wallah AI Soch raha hai...";
-    responseBox.style.color = "white";
-
+    // Loading State (Bache ko lage ki AI soch raha hai)
+    responseDisplay.innerHTML = "🚀 <span style='color: #38bdf8;'>Maharashtra Wallah AI Soch raha hai...</span>";
+    
     try {
         const response = await fetch("/api/chat", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ prompt: input })
+            body: JSON.stringify({ prompt: swal })
         });
 
-        const data = await response.json();
+        const result = await data = await response.json();
 
         if (data.choices && data.choices[0]) {
-            const aiText = data.choices[0].message.content;
-            // Response format karna aur scroll karna
-            responseBox.innerHTML = `<strong>Maharashtra Wallah AI:</strong> <br><br>${aiText.replace(/\n/g, "<br>")}`;
-            responseBox.scrollIntoView({ behavior: 'smooth' });
+            const jawab = data.choices[0].message.content;
+            
+            // Text Formatting (New lines ko handle karne ke liye)
+            responseDisplay.innerHTML = `<strong>✨ Maharashtra Wallah AI:</strong><br><br>${jawab.replace(/\n/g, "<br>")}`;
+            
+            // Auto-Scroll (Jawab aate hi screen niche move hogi)
+            responseDisplay.scrollIntoView({ behavior: 'smooth', block: 'center' });
         } else {
-            responseBox.innerHTML = "❌ Error: AI respond nahi kar raha. Key check karo!";
+            responseDisplay.innerHTML = "❌ <span style='color: #ff4d4d;'>AI thoda thak gaya hai. Please refresh karke try karo!</span>";
         }
-    } catch (error) {
-        console.error("Error:", error);
-        responseBox.innerHTML = "❌ Connection Failed! Internet check karo bhai.";
+    } catch (bhul) {
+        console.error("Error:", bhul);
+        responseDisplay.innerHTML = "❌ <span style='color: #ff4d4d;'>Connection Failed! Internet ya Vercel check karo bhai.</span>";
     }
 }
 
-// ==========================================
-// 2. VIDEO PLAYER LOGIC (For Subject Buttons)
-// ==========================================
-function dikhaoVideo(videoId) {
-    const container = document.getElementById('videoContainer');
-    const player = document.getElementById('videoPlayer');
+// ======================================================
+// 📺 SECTION B: VIDEO PLAYER LOGIC (Education Hub)
+// ======================================================
+function dikhaoVideo(id) {
+    // YouTube Short ya Video ko Embed link mein badalna
+    youtubeFrame.src = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0`;
     
-    // YouTube link set karna
-    player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
-    container.style.display = "block"; // Video dikhao
-    container.scrollIntoView({ behavior: 'smooth' });
+    // Player ko stylish tarike se dikhana
+    videoBox.style.display = "block";
+    videoBox.style.animation = "fadeIn 0.5s ease-in-out";
+    
+    // Video par focus lana
+    videoBox.scrollIntoView({ behavior: 'smooth' });
 }
 
 function bandKaroVideo() {
-    const container = document.getElementById('videoContainer');
-    const player = document.getElementById('videoPlayer');
-    
-    player.src = ""; // Video band karna
-    container.style.display = "none"; // Player chhupana
+    youtubeFrame.src = ""; // Video stop karne ke liye
+    videoBox.style.display = "none";
 }
 
-// ==========================================
-// 3. KEYBOARD LOGIC (Enter Key Support)
-// ==========================================
-document.getElementById('userInput')?.addEventListener('keypress', function (e) {
+// ======================================================
+// ⚡ SECTION C: SMART FEATURES (UX/UI)
+// ======================================================
+
+// 1. Enter Key Support (Bina button dabaye message bhejo)
+inputArea.addEventListener('keypress', function (e) {
     if (e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault();
+        e.preventDefault(); // Nayi line prevent karega
         askAI();
     }
 });
-        
+
+// 2. Clear Input after sending (Optional - use if needed)
+// askButton.addEventListener('click', () => { setTimeout(() => { inputArea.value = ""; }, 100); });
+
+console.log("✅ Maharashtra Wallah AI Engine Loaded Successfully!");
+            

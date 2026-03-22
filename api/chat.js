@@ -1,12 +1,6 @@
 export default async function handler(req, res) {
-    // 1. Check API Key
-    const apiKey = process.env.CEREBRAS_API_KEY;
-
-    if (!apiKey) {
-        return res.status(500).json({ 
-            choices: [{ message: { content: "❌ Error: Vercel settings mein CEREBRAS_API_KEY nahi mili! Settings check karo." } }] 
-        });
-    }
+    // ⚠️ SABSE ZAROORI: "csk_..." wali apni asli key yahan paste karo
+    const apiKey = "csk-venxcy3vpte4hmwy3n38f46w99455yhpdw9jv4mdw2ww9x3h"; 
 
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Method Not Allowed' });
@@ -32,6 +26,7 @@ export default async function handler(req, res) {
 
         const data = await response.json();
 
+        // Check agar API ne koi error bheja
         if (data.error) {
             return res.status(500).json({ 
                 choices: [{ message: { content: "❌ API Error: " + data.error.message } }] 
@@ -45,5 +40,4 @@ export default async function handler(req, res) {
             choices: [{ message: { content: "❌ Server Error: " + error.message } }] 
         });
     }
-                        }
-            
+}

@@ -4,7 +4,7 @@
 
 body { background: #f0f4ff; color: #1e293b; min-height: 100vh; position: relative; }
 
-/* 1. Header & Photo (image_9.png logic) */
+/* Header & Photo */
 header {
     background: #0f172a; color: white; padding: 15px 20px;
     display: flex; justify-content: space-between; align-items: center;
@@ -23,17 +23,15 @@ header {
 .v-name { font-weight: 800; font-size: 16px; display: block; }
 .app-tag { font-size: 10px; color: #818cf8; text-transform: uppercase; }
 
-/* 2. Study Section (Glass Look) */
-main { padding: 20px; padding-bottom: 120px; /* AI section ke liye jagah */ }
+/* Main Cards */
+main { padding: 20px; padding-bottom: 120px; }
 
 .category-card {
-    background: rgba(255, 255, 255, 0.9); border-radius: 20px; padding: 25px;
+    background: white; border-radius: 20px; padding: 25px;
     display: flex; align-items: center; gap: 15px;
     box-shadow: 0 10px 20px rgba(0,0,0,0.05); cursor: pointer;
-    transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.category-card:hover { transform: translateY(-3px); }
 .card-icon { background: #6366f1; color: white; padding: 10px; border-radius: 12px; }
 
 .sub-item {
@@ -42,18 +40,16 @@ main { padding: 20px; padding-bottom: 120px; /* AI section ke liye jagah */ }
     font-weight: 600; border-left: 5px solid #6366f1; cursor: pointer;
 }
 
-.sub-item:hover { background: #f0f4ff; transform: translateX(5px); }
-
-/* 3. Separate AI Footer Section (The "Far Away" Section) */
+/* AI Bottom Section (Send Button Modified) */
 #ai-section {
     position: fixed; bottom: 0; left: 0; width: 100%;
     background: white; border-top: 1px solid #e2e8f0;
-    padding: 15px 20px; z-index: 1000; box-shadow: 0 -5px 15px rgba(0,0,0,0.05);
+    padding: 15px 20px; z-index: 1000;
 }
 
 .ai-box {
     background: #f1f5f9; border-radius: 50px;
-    display: flex; align-items: center; padding: 10px 20px;
+    display: flex; align-items: center; padding: 8px 15px;
 }
 
 .ai-icon { color: #6366f1; margin-right: 10px; }
@@ -61,53 +57,42 @@ main { padding: 20px; padding-bottom: 120px; /* AI section ke liye jagah */ }
 
 #user-query {
     flex: 1; border: none; background: transparent;
-    outline: none; font-size: 14px; font-weight: 600;
+    outline: none; font-size: 14px; font-weight: 600; padding: 10px;
 }
 
-/* AI Chat Window */
-#ai-chat-window {
-    position: fixed; bottom: 85px; right: 20px;
-    width: 350px; height: 500px;
-    background: white; border-radius: 25px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-    display: flex; flex-direction: column; overflow: hidden;
-    transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.chat-hidden { transform: translateY(120%) scale(0.8); opacity: 0; pointer-events: none; }
-
-.chat-header { background: #0f172a; color: white; padding: 20px; display: flex; justify-content: space-between; align-items: center; }
-#chat-display { flex: 1; padding: 20px; overflow-y: auto; background: #f8fafc; }
-.bot-msg { background: white; padding: 12px; border-radius: 15px 15px 15px 0; margin-bottom: 12px; font-size: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
-
-.chat-input-bar { padding: 15px; display: flex; align-items: center; gap: 10px; border-top: 1px solid #e2e8f0; background: white; }
-#chat-user-query { flex: 1; padding: 12px 18px; border: 2px solid #f1f5f9; border-radius: 25px; outline: none; }
-
-.hidden-content { display: none; }
-   /* Naya Send Button Style */
+/* Ye hai naya 100% working Send Button */
 .send-btn-main {
-    background: #6366f1;
-    color: white;
+    background: #6366f1 !important;
+    color: white !important;
     border: none;
-    width: 40px;
-    height: 40px;
+    width: 42px !important;
+    height: 42px !important;
     border-radius: 50%;
-    display: flex;
+    display: flex !important;
     justify-content: center;
     align-items: center;
     cursor: pointer;
     box-shadow: 0 4px 10px rgba(99, 102, 241, 0.3);
-    transition: 0.3s;
 }
 
-.send-btn-main:active { transform: scale(0.9); }
+.send-btn-main .material-icons { font-size: 20px; }
 
-#user-query {
-    flex: 1;
-    border: none;
-    background: transparent;
-    outline: none;
-    font-size: 15px;
-    padding: 10px;
-    }
+/* Chat Window Styles */
+#ai-chat-window {
+    position: fixed; bottom: 90px; right: 20px;
+    width: 350px; height: 500px;
+    background: white; border-radius: 25px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    display: flex; flex-direction: column; overflow: hidden;
+    transition: 0.4s;
+}
+
+.chat-hidden { transform: translateY(120%); opacity: 0; pointer-events: none; }
+
+.chat-header { background: #0f172a; color: white; padding: 20px; display: flex; justify-content: space-between; align-items: center; }
+#chat-display { flex: 1; padding: 20px; overflow-y: auto; background: #f8fafc; }
+.chat-input-bar { padding: 15px; display: flex; gap: 10px; border-top: 1px solid #e2e8f0; }
+#chat-user-query { flex: 1; padding: 10px 15px; border-radius: 20px; border: 1px solid #ddd; outline: none; }
+
+.hidden-content { display: none; }
     

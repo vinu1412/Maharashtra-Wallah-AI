@@ -78,6 +78,7 @@ function handleChat() {
             display.appendChild(botMsg);
             display.scrollTop = display.scrollHeight;
         }, 500);
+    
 
         input.value = "";
         display.scrollTop = display.scrollHeight;
@@ -86,7 +87,7 @@ function handleChat() {
 
 // Camera aur File ke liye placeholder functions
 function openCamera() { alert("Camera opening... (Feature coming soon!)"); }
-                  // 5. Asli AI Chat Handling (Cerebras API ke saath)
+        // 5. Asli AI Chat Handling (Cerebras API ke saath)
 async function handleChat() {
     const input = document.getElementById('user-query');
     const display = document.getElementById('chat-display');
@@ -105,14 +106,14 @@ async function handleChat() {
         // Bot ka 'Soch raha hoon...' message
         const typingMsg = document.createElement('div');
         typingMsg.className = 'bot-msg';
-        typingMsg.innerText = "Searching for answer..."; se
+        typingMsg.innerText = "Searching for answer...";
         display.appendChild(typingMsg);
 
         try {
             const response = await fetch("https://api.cerebras.ai/v1/chat/completions", {
                 method: "POST",
                 headers: {
-                    "Authorization": "csk-venxcy3vpte4hmwy3n38f46w99455yhpdw9jv4mdw2ww9x3h", // <--- Yahan apni CSK_ wali key dalo
+                    "Authorization": "Bearer csk-venxcy3vpte4hmwy3n38f46w99455yhpdw9jv4mdw2ww9x3h", // <--- Yahan apni CSK_ wali key dalo
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
@@ -143,4 +144,4 @@ async function handleChat() {
         }
         display.scrollTop = display.scrollHeight;
     }
-}
+    }

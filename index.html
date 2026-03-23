@@ -48,29 +48,18 @@
         </section>
     </main>
 
-    <footer id="ai-section">
+        <footer id="ai-section">
         <div class="ai-box">
             <span class="material-icons ai-icon">bolt</span>
             <div class="ai-input-area">
-                <input type="text" id="user-query" placeholder="Ask Me Anything..." onclick="openAIChat()">
-                <button class="icon-btn" onclick="openCamera()"><span class="material-icons">photo_camera</span></button>
-            </div>
-        </div>
-
-        <div id="ai-chat-window" class="chat-hidden">
-            <div class="chat-header">
-                <span>MW AI Assistant</span>
-                <button onclick="closeAIChat()"><span class="material-icons">close</span></button>
-            </div>
-            <div id="chat-display"></div>
-            <div class="chat-input-bar">
-                <input type="text" id="chat-user-query" placeholder="Sawal pucho...">
-                <button id="send-btn" onclick="handleChat()">
+                <input type="text" id="user-query" placeholder="Ask Me Anything..." onkeypress="if(event.key === 'Enter') handleMainChat()">
+                <button class="send-btn-main" onclick="handleMainChat()">
                     <span class="material-icons">send</span>
                 </button>
             </div>
         </div>
-    </footer>
+      </footer>
+                  
 
     <script src="script.js"></script>
 </body>

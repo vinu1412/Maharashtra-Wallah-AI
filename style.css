@@ -2,9 +2,9 @@
 
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
 
-body { background: #f0f4ff; color: #1e293b; }
+body { background: #f0f4ff; color: #1e293b; min-height: 100vh; position: relative; }
 
-/* Header & Photo Glow */
+/* 1. Header & Photo (image_9.png logic) */
 header {
     background: #0f172a; color: white; padding: 15px 20px;
     display: flex; justify-content: space-between; align-items: center;
@@ -23,37 +23,65 @@ header {
 .v-name { font-weight: 800; font-size: 16px; display: block; }
 .app-tag { font-size: 10px; color: #818cf8; text-transform: uppercase; }
 
-/* Subject Cards */
+/* 2. Study Section (Glass Look) */
+main { padding: 20px; padding-bottom: 120px; /* AI section ke liye jagah */ }
+
 .category-card {
-    background: white; border-radius: 20px; padding: 20px;
-    margin-top: 20px; display: flex; align-items: center; gap: 15px;
+    background: rgba(255, 255, 255, 0.9); border-radius: 20px; padding: 25px;
+    display: flex; align-items: center; gap: 15px;
     box-shadow: 0 10px 20px rgba(0,0,0,0.05); cursor: pointer;
+    transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
+.category-card:hover { transform: translateY(-3px); }
 .card-icon { background: #6366f1; color: white; padding: 10px; border-radius: 12px; }
 
 .sub-item {
-    background: white; padding: 18px; margin-top: 10px;
+    background: white; padding: 20px; margin-top: 10px;
     border-radius: 15px; display: flex; justify-content: space-between;
     font-weight: 600; border-left: 5px solid #6366f1; cursor: pointer;
 }
 
-.sub-ico { font-size: 20px; vertical-align: middle; margin-right: 8px; color: #6366f1; }
+.sub-item:hover { background: #f0f4ff; transform: translateX(5px); }
 
-/* AI FAB Pulse */
-#ai-fab {
-    position: fixed; bottom: 25px; right: 25px;
-    background: #0f172a; color: white; border: none;
-    padding: 15px 25px; border-radius: 50px; font-weight: 700;
-    display: flex; align-items: center; gap: 8px;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.2); animation: pulse 2s infinite;
+/* 3. Separate AI Footer Section (The "Far Away" Section) */
+#ai-section {
+    position: fixed; bottom: 0; left: 0; width: 100%;
+    background: white; border-top: 1px solid #e2e8f0;
+    padding: 15px 20px; z-index: 1000; box-shadow: 0 -5px 15px rgba(0,0,0,0.05);
 }
 
-@keyframes pulse {
-    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.7); }
-    70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(99, 102, 241, 0); }
-    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(99, 102, 241, 0); }
+.ai-box {
+    background: #f1f5f9; border-radius: 50px;
+    display: flex; align-items: center; padding: 10px 20px;
 }
+
+.ai-icon { color: #6366f1; margin-right: 10px; }
+.ai-input-area { flex: 1; display: flex; align-items: center; gap: 10px; }
+
+#user-query {
+    flex: 1; border: none; background: transparent;
+    outline: none; font-size: 14px; font-weight: 600;
+}
+
+/* AI Chat Window */
+#ai-chat-window {
+    position: fixed; bottom: 85px; right: 20px;
+    width: 350px; height: 500px;
+    background: white; border-radius: 25px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    display: flex; flex-direction: column; overflow: hidden;
+    transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.chat-hidden { transform: translateY(120%) scale(0.8); opacity: 0; pointer-events: none; }
+
+.chat-header { background: #0f172a; color: white; padding: 20px; display: flex; justify-content: space-between; align-items: center; }
+#chat-display { flex: 1; padding: 20px; overflow-y: auto; background: #f8fafc; }
+.bot-msg { background: white; padding: 12px; border-radius: 15px 15px 15px 0; margin-bottom: 12px; font-size: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+
+.chat-input-bar { padding: 15px; display: flex; align-items: center; gap: 10px; border-top: 1px solid #e2e8f0; background: white; }
+#chat-user-query { flex: 1; padding: 12px 18px; border: 2px solid #f1f5f9; border-radius: 25px; outline: none; }
 
 .hidden-content { display: none; }
-            
+    

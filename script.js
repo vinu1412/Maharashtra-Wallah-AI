@@ -145,3 +145,20 @@ async function handleChat() {
         display.scrollTop = display.scrollHeight;
     }
     }
+async function handleMainChat() {
+    const mainInput = document.getElementById('user-query');
+    const query = mainInput.value.trim();
+    
+    if (query !== "") {
+        // 1. Pehle Chat Window kholo
+        openAIChat(); 
+        
+        // 2. Chat window ke input mein ye query daal kar handleChat chalao
+        const chatInput = document.getElementById('chat-user-query');
+        chatInput.value = query;
+        handleChat(); // Ye wahi purana Cerebras wala function hai
+        
+        // 3. Main input khali karo
+        mainInput.value = "";
+    }
+}

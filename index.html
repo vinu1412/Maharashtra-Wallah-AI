@@ -2,12 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>MW AI - Vinod Vasave</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+    <div id="splash-screen">
+        <div class="loader"></div>
+        <h1 style="color:white; margin-top:20px;">MW AI</h1>
+    </div>
 
     <div id="app-container">
         <header>
@@ -27,7 +32,7 @@
                     <div class="card-icon"><span class="material-icons">auto_stories</span></div>
                     <div class="card-content">
                         <h3>Class 12th (HSC)</h3>
-                        <p>Maharashtra Board Subjects</p>
+                        <p>Maharashtra Board</p>
                     </div>
                     <span class="material-icons arrow">expand_more</span>
                 </div>
@@ -52,31 +57,27 @@
         <footer id="ai-section">
             <div class="ai-box">
                 <span class="material-icons ai-icon">bolt</span>
-                <div class="ai-input-area">
-                    <input type="text" id="user-query" placeholder="Ask Me Anything..." onkeypress="if(event.key === 'Enter') handleMainChat()">
-                    <button class="send-btn-main" onclick="handleMainChat()">
-                        <span class="material-icons">send</span>
-                    </button>
-                </div>
-            </div>
-
-            <div id="ai-chat-window" class="chat-hidden">
-                <div class="chat-header">
-                    <span>MW AI Assistant</span>
-                    <button onclick="closeAIChat()"><span class="material-icons">close</span></button>
-                </div>
-                <div id="chat-display"></div>
-                <div class="chat-input-bar">
-                    <input type="text" id="chat-user-query" placeholder="Sawal pucho...">
-                    <button id="send-btn" onclick="handleChat()">
-                        <span class="material-icons">send</span>
-                    </button>
-                </div>
+                <input type="text" id="user-query" placeholder="Ask Me Anything..." onkeypress="if(event.key === 'Enter') handleMainChat()">
+                <button class="send-btn-main" onclick="handleMainChat()">
+                    <span class="material-icons">send</span>
+                </button>
             </div>
         </footer>
+
+        <div id="ai-chat-window" class="chat-hidden">
+            <div class="chat-header">
+                <span>MW AI Assistant</span>
+                <button onclick="closeAIChat()"><span class="material-icons">close</span></button>
+            </div>
+            <div id="chat-display"></div>
+            <div class="chat-input-bar">
+                <input type="text" id="chat-user-query" placeholder="Type here...">
+                <button id="send-btn" onclick="handleChat()"><span class="material-icons">send</span></button>
+            </div>
+        </div>
     </div>
 
     <script src="script.js"></script>
 </body>
-                  </html>
-                  
+                    </html>
+    

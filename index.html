@@ -1,67 +1,82 @@
-      <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vinod Vasave | MW AI</title>
+    <title>MW AI - Vinod Vasave</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <header>
-        <div class="brand">
-            <img src="vinod.png" alt="Vinod Vasave" class="user-avatar">
-            <div class="user-info">
-                <span class="v-name">Vinod Vasave</span>
-                <span class="app-tag">MW AI Partner</span>
-            </div>
-        </div>
-        <button id="theme-btn"><span class="material-icons">dark_mode</span></button>
-    </header>
-
-    <main>
-        <section id="study-section">
-            <div class="category-card" onclick="toggleSubjects()">
-                <div class="card-icon"><span class="material-icons">import_contacts</span></div>
-                <div class="card-content">
-                    <h3>Class 12th (HSC)</h3>
-                    <p>Maharashtra Board Subjects</p>
+    <div id="app-container">
+        <header>
+            <div class="brand">
+                <img src="vinod.png" alt="Vinod Vasave" class="user-avatar">
+                <div class="user-info">
+                    <span class="v-name">Vinod Vasave</span>
+                    <span class="app-tag">Founder, MW AI</span>
                 </div>
-                <span class="material-icons arrow">expand_more</span>
             </div>
+            <button id="theme-btn"><span class="material-icons">dark_mode</span></button>
+        </header>
 
-            <div id="subjects-list" class="hidden-content">
-                <div class="sub-item" onclick="openSubject('Physics')">Physics <span class="material-icons">chevron_right</span></div>
-                <div class="sub-item" onclick="openSubject('Chemistry')">Chemistry <span class="material-icons">chevron_right</span></div>
-                <div class="sub-item" onclick="openSubject('Mathematics')">Mathematics <span class="material-icons">chevron_right</span></div>
-                <div class="sub-item" onclick="openSubject('Biology')">Biology <span class="material-icons">chevron_right</span></div>
-            </div>
+        <main>
+            <section id="main-menu">
+                <div class="category-card" onclick="toggleSubjects()">
+                    <div class="card-icon"><span class="material-icons">auto_stories</span></div>
+                    <div class="card-content">
+                        <h3>Class 12th (HSC)</h3>
+                        <p>Maharashtra Board Subjects</p>
+                    </div>
+                    <span class="material-icons arrow">expand_more</span>
+                </div>
 
-            <div id="chapter-view" class="hidden-content">
+                <div id="subjects-list" class="hidden-content">
+                    <div class="sub-item" onclick="openSubject('Physics')">Physics <span class="material-icons">chevron_right</span></div>
+                    <div class="sub-item" onclick="openSubject('Chemistry')">Chemistry <span class="material-icons">chevron_right</span></div>
+                    <div class="sub-item" onclick="openSubject('Mathematics')">Mathematics <span class="material-icons">chevron_right</span></div>
+                    <div class="sub-item" onclick="openSubject('Biology')">Biology <span class="material-icons">chevron_right</span></div>
+                </div>
+            </section>
+
+            <section id="chapter-view" class="hidden-content">
                 <div class="back-bar" onclick="goBack()">
                     <span class="material-icons">arrow_back</span>
                     <span id="selected-subject">Subject</span>
                 </div>
                 <div id="chapters-list"></div>
-            </div>
-        </section>
-    </main>
+            </section>
+        </main>
 
         <footer id="ai-section">
-        <div class="ai-box">
-            <span class="material-icons ai-icon">bolt</span>
-            <div class="ai-input-area">
-                <input type="text" id="user-query" placeholder="Ask Me Anything..." onkeypress="if(event.key === 'Enter') handleMainChat()">
-                <button class="send-btn-main" onclick="handleMainChat()">
-                    <span class="material-icons">send</span>
-                </button>
+            <div class="ai-box">
+                <span class="material-icons ai-icon">bolt</span>
+                <div class="ai-input-area">
+                    <input type="text" id="user-query" placeholder="Ask Me Anything..." onkeypress="if(event.key === 'Enter') handleMainChat()">
+                    <button class="send-btn-main" onclick="handleMainChat()">
+                        <span class="material-icons">send</span>
+                    </button>
+                </div>
             </div>
-        </div>
-      </footer>
-                  
+
+            <div id="ai-chat-window" class="chat-hidden">
+                <div class="chat-header">
+                    <span>MW AI Assistant</span>
+                    <button onclick="closeAIChat()"><span class="material-icons">close</span></button>
+                </div>
+                <div id="chat-display"></div>
+                <div class="chat-input-bar">
+                    <input type="text" id="chat-user-query" placeholder="Sawal pucho...">
+                    <button id="send-btn" onclick="handleChat()">
+                        <span class="material-icons">send</span>
+                    </button>
+                </div>
+            </div>
+        </footer>
+    </div>
 
     <script src="script.js"></script>
 </body>
-    </html>
-                    
+                  </html>
+                  

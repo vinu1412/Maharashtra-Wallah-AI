@@ -1,169 +1,59 @@
-/* 1. Global Setup - Font and Gradients */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap');
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
 
-body {
-    background: linear-gradient(135deg, #f0f4ff 0%, #f5f3ff 100%);
-    min-height: 100vh;
-    color: #1e293b;
-}
+body { background: #f0f4ff; color: #1e293b; }
 
-/* 2. Header - Glassmorphism Look */
+/* Header & Photo Glow */
 header {
-    background: rgba(15, 23, 42, 0.95);
-    backdrop-filter: blur(10px);
-    color: white;
-    padding: 18px 25px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    border-bottom: 3px solid #6366f1;
+    background: #0f172a; color: white; padding: 15px 20px;
+    display: flex; justify-content: space-between; align-items: center;
+    position: sticky; top: 0; z-index: 1000; border-bottom: 3px solid #6366f1;
 }
 
-.brand span {
-    font-size: 20px;
-    font-weight: 800;
-    background: linear-gradient(to right, #38bdf8, #818cf8);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+.brand { display: flex; align-items: center; gap: 12px; }
+
+.user-avatar {
+    width: 50px; height: 50px; border-radius: 50%;
+    border: 2px solid #6366f1;
+    box-shadow: 0 0 15px rgba(99, 102, 241, 0.6);
+    object-fit: cover;
 }
 
-/* 3. Main Category Card - Dynamic UI */
+.v-name { font-weight: 800; font-size: 16px; display: block; }
+.app-tag { font-size: 10px; color: #818cf8; text-transform: uppercase; }
+
+/* Subject Cards */
 .category-card {
-    background: rgba(255, 255, 255, 0.9);
-    border-radius: 24px;
-    padding: 25px;
-    margin-top: 25px;
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    box-shadow: 0 10px 25px rgba(99, 102, 241, 0.15);
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    background: white; border-radius: 20px; padding: 20px;
+    margin-top: 20px; display: flex; align-items: center; gap: 15px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05); cursor: pointer;
 }
 
-.category-card:active { transform: scale(0.95); }
-
-.card-icon {
-    background: linear-gradient(135deg, #6366f1, #a855f7);
-    width: 65px;
-    height: 65px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 20px;
-    color: white;
-    font-size: 32px;
-}
-
-/* 4. Subject Buttons - Smooth Transitions */
-.hidden-content { display: none; }
+.card-icon { background: #6366f1; color: white; padding: 10px; border-radius: 12px; }
 
 .sub-item {
-    background: white;
-    padding: 20px;
-    margin-top: 12px;
-    border-radius: 18px;
-    border-left: 6px solid #6366f1;
-    font-weight: 600;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-    transition: 0.3s ease;
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
+    background: white; padding: 18px; margin-top: 10px;
+    border-radius: 15px; display: flex; justify-content: space-between;
+    font-weight: 600; border-left: 5px solid #6366f1; cursor: pointer;
 }
 
-.sub-item:hover {
-    background: #6366f1;
-    color: white;
-    transform: translateX(10px);
-}
+.sub-ico { font-size: 20px; vertical-align: middle; margin-right: 8px; color: #6366f1; }
 
-/* 5. AI Assistant - Pulse Floating Button */
+/* AI FAB Pulse */
 #ai-fab {
-    position: fixed;
-    bottom: 25px;
-    right: 25px;
-    background: linear-gradient(135deg, #0f172a, #334155);
-    color: white;
-    padding: 16px 28px;
-    border-radius: 50px;
-    font-weight: 700;
-    border: none;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.4);
-    animation: pulseGlow 2s infinite;
-    cursor: pointer;
-    z-index: 2000;
+    position: fixed; bottom: 25px; right: 25px;
+    background: #0f172a; color: white; border: none;
+    padding: 15px 25px; border-radius: 50px; font-weight: 700;
+    display: flex; align-items: center; gap: 8px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2); animation: pulse 2s infinite;
 }
 
-@keyframes pulseGlow {
-    0% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.5); }
-    70% { box-shadow: 0 0 0 15px rgba(99, 102, 241, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0); }
+@keyframes pulse {
+    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.7); }
+    70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(99, 102, 241, 0); }
+    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(99, 102, 241, 0); }
 }
 
-/* 6. Chat Window - Professional iOS Style */
-#ai-chat-window {
-    position: fixed;
-    bottom: 100px;
-    right: 20px;
-    width: 350px;
-    height: 500px;
-    background: white;
-    border-radius: 30px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    z-index: 2000;
-    transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.chat-hidden { transform: translateY(120%) scale(0.8); opacity: 0; pointer-events: none; }
-
-.chat-header {
-    background: #0f172a;
-    color: white;
-    padding: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-#chat-display { flex: 1; padding: 20px; overflow-y: auto; background: #f8fafc; }
-
-.bot-msg { background: white; padding: 12px 18px; border-radius: 18px 18px 18px 0; margin-bottom: 12px; font-size: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); line-height: 1.5; }
-
-.chat-input-bar {
-    padding: 15px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    background: white;
-    border-top: 1px solid #e2e8f0;
-}
-
-#user-query {
-    flex: 1;
-    padding: 12px 18px;
-    border: 2px solid #f1f5f9;
-    border-radius: 25px;
-    outline: none;
-    transition: 0.3s;
-}
-
-#user-query:focus { border-color: #6366f1; }
-    
+.hidden-content { display: none; }
+            

@@ -1,12 +1,15 @@
-/* 1. Splash & Navigation */
+/* 1. Splash Screen Logic */
 window.addEventListener('load', () => {
     setTimeout(() => {
-        document.getElementById('splash-screen').style.display = 'none';
+        const splash = document.getElementById('splash-screen');
+        if(splash) splash.style.display = 'none';
     }, 2000);
 });
 
+/* 2. Navigation Functions */
 function toggleSubjects() {
-    document.getElementById('subjects-list').classList.toggle('hidden-content');
+    const list = document.getElementById('subjects-list');
+    if(list) list.classList.toggle('hidden-content');
 }
 
 function openAIChat() {
@@ -43,21 +46,32 @@ function goBack() {
     document.getElementById('main-menu').classList.remove('hidden-content');
 }
 
-/* 2. Supabase Setup (Database) */
+/* 3. Supabase Database Connection */
 const SUPABASE_URL = 'https://etktvpsmgtlyqjntubmz.supabase.co';
-const SUPABASE_KEY = 'sb_public_vbUmdfGQqXpUfV1mD_XoZ_U7'; // आपकी Public Key
-const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const SUPABASE_KEY = 'sb_public_vbUmdfGQqXpUfV1mD_XoZ_U7'; 
 
-async function saveChatToDB(userMsg, aiMsg) {
-    const { data, error } = await supabaseClient
-        .from('Vinod vasave') // आपकी टेबल का नाम
-        .insert([{ user_query: userMsg, ai_response: aiMsg }]);
-
-    if (error) console.error("Database Save Error:", error);
-    else console.log("Data successfully saved to Supabase!");
+// Check if supabase library is loaded
+let supabaseClient;
+if (typeof supabase !== 'undefined') {
+    supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+} else {
+    console.error("Supabase library not found! Check index.html line 9.");
 }
 
-/* 3. Chat Logic (Cerebras AI + Supabase) */
+async function saveChatToDB(userMsg, aiMsg) {
+    if (!supabaseClient) return;
+    try {
+        const { data, error } = await supabaseClient
+            .from('Vinod vasave')
+            .insert([{ user_query: userMsg, ai_response: aiMsg }]);
+        if (error) console.error("DB Save Error:", error.message);
+        else console.log("Data saved to Supabase!");
+    } catch (e) {
+        console.error("Database failed:", e);
+    }
+}
+
+/* 4. Chat Logic (Cerebras API + Database Call) */
 function handleMainChat() {
     const input = document.getElementById('user-query');
     const text = input.value.trim();
@@ -80,13 +94,13 @@ function handleChat() {
 async function callAI(query) {
     const display = document.getElementById('chat-display');
 
-    // User message display
+    // Display User Message
     const uDiv = document.createElement('div');
-    uDiv.style.cssText = "background:#6366f1; color:white; padding: 10px; border-radius:10px; margin-bottom:10px; align-self:flex-end;";
+    uDiv.style.cssText = "background:#6366f1; color:white; padding:10px; border-radius:10px; margin-bottom:10px; align-self:flex-end; max-width:80%;";
     uDiv.innerText = query;
     display.appendChild(uDiv);
 
-    // Loading indicator
+    // Show Loader
     const loader = document.createElement('div');
     loader.className = 'bot-msg';
     loader.innerText = 'Searching...';
@@ -112,21 +126,28 @@ async function callAI(query) {
         const data = await res.json();
         display.removeChild(loader);
 
-        const aiReply = data.choices[0].message.content;
+        if (data.choices && data.choices[0]) {
+            const aiReply = data.choices[0].message.content;
 
-        // AI message display
-        const bDiv = document.createElement('div');
-        bDiv.className = 'bot-msg';
-        bDiv.innerText = aiReply;
-        display.appendChild(bDiv);
-        
-        // --- DATABASE SAVE START ---
-        saveChatToDB(query, aiReply);
-        // --- DATABASE SAVE END ---
+            // Display AI Response
+            const bDiv = document.createElement('div');
+            bDiv.className = 'bot-msg';
+            bDiv.innerText = aiReply;
+            display.appendChild(bDiv);
+
+            // Save to Database
+            saveChatToDB(query, aiReply);
+        } else {
+            throw new Error("Invalid API Response");
+        }
 
     } catch (e) {
-        display.removeChild(loader);
-        alert("API Error! Key check karo bhai.");
+        if(loader.parentNode) display.removeChild(loader);
+        const errDiv = document.createElement('div');
+        errDiv.innerText = "Error: API Response nahi mil raha. Key check karein.";
+        errDiv.style.color = "red";
+        display.appendChild(errDiv);
+        console.error("AI Error:", e);
     }
     display.scrollTop = display.scrollHeight;
-        }
+}

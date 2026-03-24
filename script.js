@@ -77,9 +77,27 @@ async function callAI(query) {
         bDiv.className = 'bot-msg';
         bDiv.innerText = data.choices[0].message.content;
         display.appendChild(bDiv);
+        // लाइन 79 के बाद इसे डालें
+const aiReply = data.choices[0].message.content;
+saveChat(query, aiReply); 
+        
     } catch(e) {
         display.removeChild(loader);
         alert("API Error! Key check karo bhai.");
     }
     display.scrollTop = display.scrollHeight;
             }
+// अपनी डिटेल्स यहाँ भरें
+const SUPABASE_URL = 'https://etktvpsmgtlyqjntubmz.supabase.co'; 
+const SUPABASE_KEY = 'sb_publishable_vbUmdfGrBGLDAyq97KJ-xQ_a3sx_p6P'; // अपनी पूरी चाबी डालें
+
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+async function saveChat(userMsg, aiMsg) {
+    const { data, error } = await supabaseClient
+        .from('Vinod vasave') // अगर टेबल नाम में स्पेस है तो '"Vinod vasave"' लिखें
+        .insert([{ user_query: userMsg, ai_response: aiMsg }]);
+
+    if (error) console.error("DB Error:", error);
+    else console.log("Chat Saved Successfully!");
+}

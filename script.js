@@ -111,7 +111,7 @@ async function callAI(query) {
         const res = await fetch("https://api.cerebras.ai/v1/chat/completions", {
             method: "POST",
             headers: {
-                "Authorization": "Bearer csk-vwnxcy3vptv4hmwy3n38f46w99455yhpdv9jv4mdu2wv9x3n",
+                "Authorization": "Bearer csk-xyrx9y9wprtv53cch2tvk6n56fj898c5pc2d48dr8kfjffnx",
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({

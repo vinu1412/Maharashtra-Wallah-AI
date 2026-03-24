@@ -1,8 +1,21 @@
-// 1. Splash & Navigation
-window.addEventListener('load', () => { setTimeout(() => { document.getElementById('splash-screen').style.display = 'none'; }, 2000); });
-function toggleSubjects() { document.getElementById('subjects-list').classList.toggle('hidden-content'); }
-function openAIChat() { document.getElementById('ai-chat-window').classList.remove('chat-hidden'); }
-function closeAIChat() { document.getElementById('ai-chat-window').classList.add('chat-hidden'); }
+/* 1. Splash & Navigation */
+window.addEventListener('load', () => {
+    setTimeout(() => {
+        document.getElementById('splash-screen').style.display = 'none';
+    }, 2000);
+});
+
+function toggleSubjects() {
+    document.getElementById('subjects-list').classList.toggle('hidden-content');
+}
+
+function openAIChat() {
+    document.getElementById('ai-chat-window').classList.remove('chat-hidden');
+}
+
+function closeAIChat() {
+    document.getElementById('ai-chat-window').classList.add('chat-hidden');
+}
 
 const chaptersData = {
     'Physics': ['Rotational Dynamics', 'Fluids', 'Thermodynamics'],
@@ -30,29 +43,50 @@ function goBack() {
     document.getElementById('main-menu').classList.remove('hidden-content');
 }
 
-// 2. Chat Logic (Dono buttons ke liye)
+/* 2. Supabase Setup (Database) */
+const SUPABASE_URL = 'https://etktvpsmgtlyqjntubmz.supabase.co';
+const SUPABASE_KEY = 'sb_public_vbUmdfGQqXpUfV1mD_XoZ_U7'; // आपकी Public Key
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+async function saveChatToDB(userMsg, aiMsg) {
+    const { data, error } = await supabaseClient
+        .from('Vinod vasave') // आपकी टेबल का नाम
+        .insert([{ user_query: userMsg, ai_response: aiMsg }]);
+
+    if (error) console.error("Database Save Error:", error);
+    else console.log("Data successfully saved to Supabase!");
+}
+
+/* 3. Chat Logic (Cerebras AI + Supabase) */
 function handleMainChat() {
     const input = document.getElementById('user-query');
     const text = input.value.trim();
-    if(text) { openAIChat(); callAI(text); input.value = ''; }
+    if (text) {
+        openAIChat();
+        callAI(text);
+        input.value = '';
+    }
 }
 
 function handleChat() {
     const input = document.getElementById('chat-user-query');
     const text = input.value.trim();
-    if(text) { callAI(text); input.value = ''; }
+    if (text) {
+        callAI(text);
+        input.value = '';
+    }
 }
 
 async function callAI(query) {
     const display = document.getElementById('chat-display');
-    
-    // User message
+
+    // User message display
     const uDiv = document.createElement('div');
-    uDiv.style.cssText = "background:#6366f1; color:white; padding:10px; border-radius:10px; margin-bottom:10px; align-self:flex-end; max-width:80%; font-size:13px;";
+    uDiv.style.cssText = "background:#6366f1; color:white; padding: 10px; border-radius:10px; margin-bottom:10px; align-self:flex-end;";
     uDiv.innerText = query;
     display.appendChild(uDiv);
-    
-    // Loading
+
+    // Loading indicator
     const loader = document.createElement('div');
     loader.className = 'bot-msg';
     loader.innerText = 'Searching...';
@@ -63,41 +97,36 @@ async function callAI(query) {
         const res = await fetch("https://api.cerebras.ai/v1/chat/completions", {
             method: "POST",
             headers: {
-                "Authorization": "Bearer csk-venxcy3vpte4hmwy3n38f46w99455yhpdw9jv4mdw2ww9x3h", // <--- APNI KEY DALO
+                "Authorization": "Bearer csk-vwnxcy3vptv4hmwy3n38f46w99455yhpdv9jv4mdu2wv9x3n",
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
                 model: "llama3.1-8b",
-                messages: [{role:"system", content:"You are MW AI tutor."}, {role:"user", content: query}]
+                messages: [
+                    { role: "system", content: "You are Maharashtra Wallah AI tutor." },
+                    { role: "user", content: query }
+                ]
             })
         });
+
         const data = await res.json();
         display.removeChild(loader);
+
+        const aiReply = data.choices[0].message.content;
+
+        // AI message display
         const bDiv = document.createElement('div');
         bDiv.className = 'bot-msg';
-        bDiv.innerText = data.choices[0].message.content;
+        bDiv.innerText = aiReply;
         display.appendChild(bDiv);
-        // लाइन 79 के बाद इसे डालें
-const aiReply = data.choices[0].message.content;
-saveChat(query, aiReply); 
         
-    } catch(e) {
+        // --- DATABASE SAVE START ---
+        saveChatToDB(query, aiReply);
+        // --- DATABASE SAVE END ---
+
+    } catch (e) {
         display.removeChild(loader);
         alert("API Error! Key check karo bhai.");
     }
     display.scrollTop = display.scrollHeight;
-            }
-// अपनी डिटेल्स यहाँ भरें
-const SUPABASE_URL = 'https://etktvpsmgtlyqjntubmz.supabase.co'; 
-const SUPABASE_KEY = 'sb_publishable_vbUmdfGrBGLDAyq97KJ-xQ_a3sx_p6P'; // अपनी पूरी चाबी डालें
-
-const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-async function saveChat(userMsg, aiMsg) {
-    const { data, error } = await supabaseClient
-        .from('Vinod vasave') // अगर टेबल नाम में स्पेस है तो '"Vinod vasave"' लिखें
-        .insert([{ user_query: userMsg, ai_response: aiMsg }]);
-
-    if (error) console.error("DB Error:", error);
-    else console.log("Chat Saved Successfully!");
-}
+        }

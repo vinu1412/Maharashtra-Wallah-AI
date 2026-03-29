@@ -1,0 +1,22 @@
+name: Self-Improving Bot
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'    # ← "cron" likho, "@ron" nahi
+  workflow_dispatch:
+
+jobs:
+  evolve:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Auto-Fix
+        run: |
+          echo "🤖 MW AI Auto-Improvement Started"
+          git config user.name "MW AI Bot"
+          git config user.email "bot@mwai.com"
+          git add .
+          git commit -m "🤖 Auto: $(date)" || echo "No changes"
+          git push || echo "Done"
+          echo "✅ Evolution Complete"

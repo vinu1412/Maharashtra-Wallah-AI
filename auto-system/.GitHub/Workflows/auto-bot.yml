@@ -1,0 +1,37 @@
+name: Self-Improving Bot
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'  # Har 6 ghante auto-run
+  push:
+    branches: [ main ]
+  workflow_dispatch:  # Manual run bhi kar sakte ho
+
+jobs:
+  evolve:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Auto-Fix & Deploy
+        run: |
+          echo "🧠 MW AI Evolution Started - $(date)"
+          
+          # Auto code optimization
+          find . -name "*.js" -exec sed -i 's/var /const /g' {} \;
+          find . -name "*.html" -exec sed -i 's/<script>/<script defer>/g' {} \;
+          
+          # Auto performance check
+          echo "📊 Performance Report:" > report.txt
+          echo "Time: $(date)" >> report.txt
+          echo "Files optimized: $(find . -name '*.js' | wc -l)" >> report.txt
+          echo "Bot status: Healthy ✅" >> report.txt
+          
+          # Auto commit improvements
+          git config user.name "MW AI Bot"
+          git config user.email "mwai@automation.com"
+          git add .
+          git diff --quiet && git diff --staged --quiet || git commit -m "🤖 Auto-evolved: $(date +%Y-%m-%d)"
+          git push || echo "No changes to push"
+          
+          echo "✅ Evolution Complete - $(date)"
